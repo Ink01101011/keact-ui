@@ -1,0 +1,96 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      publish_type:
+        description: 'Publish type'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - prerelease
+
+permissions:
+  contents: read
+  packages: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Publish to npm Registry
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linter
+        run: pnpm lint
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build library
+        run: pnpm build
+
+      - name: Verify dist
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "dist directory not found!"
+            exit 1
+          fi
+          echo "✅ dist directory exists"
+          ls -lah dist/
+
+      - name: Publish to npm
+        run: pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release Notes Comment
+        if: github.event_name == 'release'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+            const version = packageJson.version;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `✅ Successfully published **v${version}** to npm!\n\n📦 View on npm: https://www.npmjs.com/package/keact-ui\n\n\`\`\`bash\npnpm add keact-ui@${version}\n\`\`\``
+            });
+
+      - name: Publish workflow status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "✅ Publish workflow completed successfully"
+          else
+            echo "❌ Publish workflow failed"
+            exit 1
+          fi
