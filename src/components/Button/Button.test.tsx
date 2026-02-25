@@ -11,26 +11,32 @@ describe('Button', () => {
   it('applies primary variant by default', () => {
     render(<Button>Button</Button>);
     const button = screen.getByRole('button');
-    expect(button).toHaveClass('keact-button--primary');
+    expect(button).toHaveClass('bg-primary-500');
+    expect(button).toHaveClass('text-white');
   });
 
   it('applies different variants correctly', () => {
     const { rerender } = render(<Button variant="secondary">Button</Button>);
-    expect(screen.getByRole('button')).toHaveClass('keact-button--secondary');
+    expect(screen.getByRole('button')).toHaveClass('bg-secondary-500');
 
     rerender(<Button variant="outline">Button</Button>);
-    expect(screen.getByRole('button')).toHaveClass('keact-button--outline');
+    expect(screen.getByRole('button')).toHaveClass('border');
+    expect(screen.getByRole('button')).toHaveClass('border-primary-500');
 
     rerender(<Button variant="ghost">Button</Button>);
-    expect(screen.getByRole('button')).toHaveClass('keact-button--ghost');
+    expect(screen.getByRole('button')).toHaveClass('bg-transparent');
   });
 
   it('applies different sizes correctly', () => {
     const { rerender } = render(<Button size="sm">Button</Button>);
-    expect(screen.getByRole('button')).toHaveClass('keact-button--sm');
+    expect(screen.getByRole('button')).toHaveClass('px-3');
+    expect(screen.getByRole('button')).toHaveClass('py-2');
+    expect(screen.getByRole('button')).toHaveClass('text-sm');
 
     rerender(<Button size="lg">Button</Button>);
-    expect(screen.getByRole('button')).toHaveClass('keact-button--lg');
+    expect(screen.getByRole('button')).toHaveClass('px-5');
+    expect(screen.getByRole('button')).toHaveClass('py-3');
+    expect(screen.getByRole('button')).toHaveClass('text-lg');
   });
 
   it('handles click events', async () => {
@@ -51,12 +57,12 @@ describe('Button', () => {
     render(<Button loading>Button</Button>);
     const button = screen.getByRole('button');
     expect(button).toBeDisabled();
-    expect(button).toHaveClass('keact-button--loading');
+    expect(button).toHaveClass('pointer-events-none');
   });
 
   it('applies fullWidth class when fullWidth prop is true', () => {
     render(<Button fullWidth>Button</Button>);
-    expect(screen.getByRole('button')).toHaveClass('keact-button--full-width');
+    expect(screen.getByRole('button')).toHaveClass('w-full');
   });
 
   it('forwards ref correctly', () => {
