@@ -1,0 +1,37 @@
+# Source files
+src/
+.storybook/
+
+# Tests
+**/*.test.tsx
+**/*.test.ts
+**/*.spec.tsx
+**/*.spec.ts
+jest.config.ts
+jest.setup.ts
+coverage/
+
+# Stories
+**/*.stories.tsx
+**/*.stories.ts
+storybook-static/
+
+# Config files
+.husky/
+.vscode/
+.idea/
+tsconfig.node.json
+vite.config.ts
+eslint.config.js
+.prettierrc
+.prettierignore
+.lintstagedrc
+.gitignore
+.npmignore
+
+# Development
+node_modules/
+.DS_Store
+*.log
+.env
+.env.local
