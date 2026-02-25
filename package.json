@@ -1,11 +1,27 @@
 {
-  "name": "keact-ui",
+  "name": "@kktestdev/keact-ui",
   "version": "0.1.0",
   "description": "A modern React UI component library built with TypeScript and Vite",
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "typescript",
+    "vite",
+    "ui-library",
+    "design-system"
+  ],
+  "homepage": "https://github.com/Ink01101011/keact-ui#readme",
+  "bugs": {
+    "url": "https://github.com/Ink01101011/keact-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ink01101011/keact-ui.git"
+  },
+  "license": "MIT",
+  "author": "Ink01101011",
   "type": "module",
-  "main": "./dist/keact-ui.cjs",
-  "module": "./dist/keact-ui.mjs",
-  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -14,6 +30,8 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "main": "./dist/keact-ui.cjs",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
   ],
@@ -33,26 +51,8 @@
     "prepare": "husky",
     "prepublishOnly": "npm run lint && npm run test && npm run build"
   },
-  "keywords": [
-    "react",
-    "ui",
-    "components",
-    "typescript",
-    "vite",
-    "ui-library",
-    "design-system"
-  ],
-  "author": "",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Ink01101011/keact-ui.git"
-  },
-  "homepage": "https://github.com/Ink01101011/keact-ui#readme",
-  "bugs": {
-    "url": "https://github.com/Ink01101011/keact-ui/issues"
-  },
-  "peerDependencies": {
+  "dependencies": {
+    "clsx": "^2.1.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
@@ -102,9 +102,9 @@
     "vite": "^7.3.1",
     "vite-plugin-dts": "^4.5.4"
   },
-  "dependencies": {
-    "clsx": "^2.1.1",
+  "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
-  }
+  },
+  "module": "./dist/keact-ui.mjs"
 }
